@@ -42,15 +42,19 @@
             const { hours } = this.getNow();
             const modeIcon = document.getElementById(`modeIcon`);
             const nightIcon = document.getElementById(`nightIcon`);
-
             const isDay = hours >= 6 && hours < 18;
+            const body = document.body;
 
             if (isDay) {
                 modeIcon.setAttribute(`name`, `sunny-outline`);
                 nightIcon.classList.add(`hidden`);
+                body.classList.add(`day-mode`);
+                body.classList.remove(`night-mode`);
             } else {
                 modeIcon.setAttribute(`name`, `moon-outline`);
                 nightIcon.classList.remove(`hidden`);
+                body.classList.add(`night-mode`);
+                body.classList.remove(`day-mode`);
             }
         },
 

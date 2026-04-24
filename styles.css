@@ -1,3 +1,13 @@
 body {
     font-family: "Gloria Hallelujah", cursive;  
 }
+
+.day-mode {
+    background: linear-gradient(to bottom right, #FFD93D, #1E90FF);
+    transition: background 0.8s ease-in-out;
+}
+
+.night-mode {
+    background: linear-gradient(to bottom right, #2B2B2B, #4B2E83);
+    transition: background 0.8s ease-in-out;
+}

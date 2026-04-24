@@ -22,32 +22,39 @@
 
     <main class="max-w-md mx-auto bg-white p-6 rounded-3xl shadow-[6px_6px_0_#FFD93D]">
 
-        <section class="flex justify-center gap-3 mb-6">
+        <section class="flex justify-center">
+            <p
+            class="text-center text-blue-600 drop-shadow-[2px_2px_0_#FFD93D]">
+            Anything Is possible! If I can do it, so can you!
+            - Dani Bowman
+            </p>
+        </section>
+
+        <section class="flex justify-center gap-3 mb-6 mt-6">
             <ion-icon 
             id="modeIcon"
-            name="sunny-outline"></ion-icon>
+            name="sunny-outline"
+            class="w-12 h-12">
+            </ion-icon>
             <button 
             id="hourModeBtn"
-            class="px-4 py-2 bg-blue-400 text-white rounded-xl font-[Caveat] shadow-[3px_3px_0_#FF4F4F]">
+            class="px-4 py-2 bg-blue-400 text-white rounded-xl font-[Caveat] 
+            shadow-[2px_2px_0_#FFD93D] transition-all duration-300
+            hover:-translate-y-1 hover:shadow-[5px_5px_0_#FFD93D]">
             </button>
             <ion-icon 
             id="nightIcon"
-            name="moon-outline"></ion-icon>
+            name="moon-outline"
+            class="w-12 h-12">
+            </ion-icon>
         </section>
 
         <section class="text-center mb-6 flex justify-center">
             <div
-            class="text-4xl text-gray-800 flex justify-center" 
+            class="text-7xl text-blue-600 flex justify-center" 
             id="clock-display">
                 00:00:00
             </div>
-        </section>
-
-        <section class="flex justify-center">
-            <ion-icon 
-            name="alarm-outline" 
-            class="text-2xl text-blue-600 drop-shadow-[1px_1px_0_#FFD93D]">
-        </ion-icon>
         </section>
 
     </main>
