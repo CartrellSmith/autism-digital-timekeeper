@@ -2,12 +2,14 @@
     const clockApp = {
         intervalId: null,
         timeMode: `24`, // `24` or `12`
-
+    
+    // Start the clock and update every second
         start() {
             this.updateClock();
             this.intervalId = setInterval(() => this.updateClock(), 1000);
         },
 
+    // Get the current time from the system
         getNow() {
             const now = new Date();
             return {
@@ -17,6 +19,7 @@
             };
         },
 
+    // Format Time
         formatTime() {
             let { hours, minutes, seconds } = this.getNow();
 
@@ -38,6 +41,7 @@
                 : h + `:` + m + `:` + s;
         },
     
+    // Sun & Moon Icon and Display
         updateIcons() {
             const { hours } = this.getNow();
             const modeIcon = document.getElementById(`modeIcon`);
@@ -58,6 +62,7 @@
             }
         },
 
+    // Button Swap Clock Mode
         toggleTimeMode() {
             this.timeMode = this.timeMode === `24` ? `12` : `24`;
             this.updateModeButton();
@@ -76,6 +81,7 @@
         },
     };
 
+// Start Clock Display on Screen
 const hourModeBtn = document.getElementById(`hourModeBtn`);
 hourModeBtn.addEventListener(`click`, () => clockApp.toggleTimeMode());
 
