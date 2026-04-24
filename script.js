@@ -83,6 +83,12 @@
 
             display.innerHTML = this.formatTime(); //Keep <span> from displaying on screen
 
+        // Top of the Hour Alert
+            if (this.getNow().minutes === 0 && this.getNow().seconds === 0) {
+                console.log(`Ding!`)
+                alert (`Ding!`);
+            }
+
             this.updateIcons();
         },
 
