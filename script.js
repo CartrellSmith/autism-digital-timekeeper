@@ -56,7 +56,7 @@
                 body.classList.remove(`night-mode`);
             } else {
                 modeIcon.setAttribute(`name`, `moon-outline`);
-                nightIcon.classList.remove(`hidden`);
+                nightIcon.classList.add(`hidden`);
                 body.classList.add(`night-mode`);
                 body.classList.remove(`day-mode`);
             }
@@ -73,12 +73,30 @@
             const btn = document.getElementById(`hourModeBtn`);
             btn.textContent = this.timeMode === `24` ? `24-hour` : `12-hour`;
         },
-
+        
         updateClock() {
             const display = document.getElementById(`clock-display`);
             display.textContent = this.formatTime();
+
+            const dateDisplay = document.getElementById(`date-display`);
+            dateDisplay.textContent = this.formatDate();
+
             this.updateIcons();
         },
+
+        // Current Date
+        formatDate() {
+            const now = new Date ();
+
+            const options = {
+                weekday: `long`,
+                year: `numeric`,
+                month: `long`,
+                day: `numeric`
+            };
+
+            return now.toLocaleDateString(`en-US`, options);
+        }
     };
 
 // Start Clock Display on Screen
