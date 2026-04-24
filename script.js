@@ -1,58 +1,79 @@
 // Clock App Object
     const clockApp = {
         intervalId: null,
+        timeMode: `24`, // `24` or `12`
 
-        getTimeString: function() {
-            const now = new Date();
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            let seconds = now.getSeconds();
-
-            // Add leading zeros
-            hours = hours.toString().padStart(2, `0`);
-            minutes = minutes.toString().padStart(2, `0`);
-            seconds = seconds.toString().padStart(2, `0`);
-
-            return hours + ':' + minutes + `:` + seconds; 
-        },
-
-        updateClock: function() {
-            document.getElementById(`clock-display`).innerHTML = this.getTimeString();
-        },
-
-        start: function() {
+        start() {
             this.updateClock();
-            this.intervalId = setInterval(() => {
-                this.updateClock();
-            }, 1000);
-        }
+            this.intervalId = setInterval(() => this.updateClock(), 1000);
+        },
+
+        getNow() {
+            const now = new Date();
+            return {
+                hours: now.getHours(),
+                minutes: now.getMinutes(),
+                seconds: now.getSeconds(),
+            };
+        },
+
+        formatTime() {
+            let { hours, minutes, seconds } = this.getNow();
+
+            const isPm = hours >= 12;
+            let suffix = ``;
+
+            if (this.timeMode === `12`) {
+                suffix = isPm ? ` PM` : ` AM`;
+                hours = hours % 12;
+                if (hours === 0) hours = 12;
+            }
+
+            const h = hours.toString().padStart(2, `0`);
+            const m = minutes.toString().padStart(2, `0`);
+            const s = seconds.toString().padStart(2, `0`);
+
+            return this.timeMode === `12` 
+                ? h + `:` + m + `:` + s + suffix 
+                : h + `:` + m + `:` + s;
+        },
+    
+        updateIcons() {
+            const { hours } = this.getNow();
+            const modeIcon = document.getElementById(`modeIcon`);
+            const nightIcon = document.getElementById(`nightIcon`);
+
+            const isDay = hours >= 6 && hours < 18;
+
+            if (isDay) {
+                modeIcon.setAttribute(`name`, `sunny-outline`);
+                nightIcon.classList.add(`hidden`);
+            } else {
+                modeIcon.setAttribute(`name`, `moon-outline`);
+                nightIcon.classList.remove(`hidden`);
+            }
+        },
+
+        toggleTimeMode() {
+            this.timeMode = this.timeMode === `24` ? `12` : `24`;
+            this.updateModeButton();
+            this.updateClock(); // refresh display immediately
+        },
+
+        updateModeButton() {
+            const btn = document.getElementById(`hourModeBtn`);
+            btn.textContent = this.timeMode === `24` ? `24-hour` : `12-hour`;
+        },
+
+        updateClock() {
+            const display = document.getElementById(`clock-display`);
+            display.textContent = this.formatTime();
+            this.updateIcons();
+        },
     };
 
-// Start the Clock
-    clockApp.start();
+const hourModeBtn = document.getElementById(`hourModeBtn`);
+hourModeBtn.addEventListener(`click`, () => clockApp.toggleTimeMode());
 
-// Convert to Hour Mode (12-hour)
-    function convertToHourMode() {
-        const now = new Date();
-        let hours = now.getHours();
-
-        if (hours > 12) {
-            hours = hours - 12;
-        }
-
-        return hours;
-    }
-
-// AM/PM
-    function amPM() {
-        const now = new Date();
-        return now.getHours() >= 12 ? `PM` : `AM`;
-    }
-
-// Example button hookup
-    const hourModeBtn = document.getElementById("hourModeBtn");
-
-hourModeBtn.addEventListener("click", () => {
-    console.log("Hour Mode Clicked");
-    convertToHourMode();
-});
+clockApp.updateModeButton();
+clockApp.start();
