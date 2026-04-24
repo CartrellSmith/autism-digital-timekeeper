@@ -19,3 +19,13 @@ body {
 .night-mode footer p {
     color: white;
 }
+
+.pulse {
+    animation: pulseColor 1s infinite;
+}
+
+@keyframes pulseColor {
+    0% {color: #1E90FF;}
+    50% {color: #FFD93d;}
+    100% {color: #1E90FF}
+}

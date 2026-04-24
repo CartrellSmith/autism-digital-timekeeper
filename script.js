@@ -37,8 +37,8 @@
             const s = seconds.toString().padStart(2, `0`);
 
             return this.timeMode === `12` 
-                ? h + `:` + m + `:` + s + suffix 
-                : h + `:` + m + `:` + s;
+                ? h + `<span class="pulse">:</span>` + m + `<span class="pulse">:</span>` + s + suffix 
+                : h + `<span class="pulse">:</span>` + m + `<span class="pulse">:</span>` + s;
         },
     
     // Sun & Moon Icon and Display
@@ -80,6 +80,8 @@
 
             const dateDisplay = document.getElementById(`date-display`);
             dateDisplay.textContent = this.formatDate();
+
+            display.innerHTML = this.formatTime(); //Keep <span> from displaying on screen
 
             this.updateIcons();
         },
