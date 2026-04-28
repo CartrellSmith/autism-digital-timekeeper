@@ -41,13 +41,32 @@
                 : h + `<span class="pulse">:</span>` + m + `<span class="pulse">:</span>` + s;
         },
     
+        themeMode: `auto`, // auto, day, night to
+
     // Sun & Moon Icon and Display
         updateIcons() {
             const { hours } = this.getNow();
             const modeIcon = document.getElementById(`modeIcon`);
             const nightIcon = document.getElementById(`nightIcon`);
-            const isDay = hours >= 6 && hours < 18;
             const body = document.body;
+
+            let isDay;
+
+            // AUTO MODE (based on real time)
+
+            if (this.themeMode === `auto`) {
+                isDay = hours >= 6 && hours < 18;
+            }
+
+            // Manual Day Mode
+            if (this.themeMode === `day`) {
+                isDay = true;
+            }
+
+            // Manual Night Mode
+            if (this.themeMode === `night`) {
+                isDay = false;
+            }
 
             if (isDay) {
                 modeIcon.setAttribute(`name`, `sunny-outline`);
@@ -56,32 +75,51 @@
                 body.classList.remove(`night-mode`);
             } else {
                 modeIcon.setAttribute(`name`, `moon-outline`);
-                nightIcon.classList.add(`hidden`);
                 body.classList.add(`night-mode`);
                 body.classList.remove(`day-mode`);
             }
         },
 
-    // Button Swap Clock Mode
+    // Toggle 12/24 Hour Mode
         toggleTimeMode() {
             this.timeMode = this.timeMode === `24` ? `12` : `24`;
             this.updateModeButton();
-            this.updateClock(); // refresh display immediately
+            this.updateClock();
         },
+    
+    // Toggle Theme Mode (Auto → Day → Night)
+        toggleThemeMode() {
+            if (this.themeMode === `auto`) {
+                this.themeMode = `day`;
+            } else if (this.themeMode === `day`) {
+                this.themeMode = `night`;
+            } else {
+                this.themeMode = `auto`;
+            }
+
+            this.updateThemeButton();
+            this.updateClock();
+    },
 
         updateModeButton() {
             const btn = document.getElementById(`hourModeBtn`);
             btn.textContent = this.timeMode === `24` ? `24-hour` : `12-hour`;
         },
         
+        updateThemeButton () {
+            const btn = document.getElementById(`themeToggleBtn`);
+
+            if (this.themeMode === `auto`) btn.textContent = `Auto Mode`;
+            if (this.themeMode === "day") btn.textContent = "Day Mode";
+            if (this.themeMode === "night") btn.textContent = "Night Mode";
+        },
+
         updateClock() {
             const display = document.getElementById(`clock-display`);
-            display.textContent = this.formatTime();
+            display.innerHTML = this.formatTime();
 
             const dateDisplay = document.getElementById(`date-display`);
             dateDisplay.textContent = this.formatDate();
-
-            display.innerHTML = this.formatTime(); //Keep <span> from displaying on screen
 
         // Top of the Hour Alert
             if (this.getNow().minutes === 0 && this.getNow().seconds === 0) {
@@ -111,5 +149,9 @@
 const hourModeBtn = document.getElementById(`hourModeBtn`);
 hourModeBtn.addEventListener(`click`, () => clockApp.toggleTimeMode());
 
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+themeToggleBtn.addEventListener("click", () => clockApp.toggleThemeMode());
+
 clockApp.updateModeButton();
+clockApp.updateThemeButton();
 clockApp.start();
